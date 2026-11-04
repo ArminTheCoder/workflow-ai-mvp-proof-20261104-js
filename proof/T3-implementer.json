@@ -1,0 +1,51 @@
+{
+  "task": "T3",
+  "startCommit": "20b8d6d7fe8904d59a78708b04f915944634e29a",
+  "baselineRecordedAt": "2026-11-04T00:54:34.752Z",
+  "baseline": {
+    "cleanWorktree": true,
+    "decrease": false,
+    "reset": false,
+    "keyboardI": false,
+    "blueBoldDesign": false,
+    "strictCsp": false,
+    "evidence": "Inspected complete index.html, app.js and server.mjs before editing: only Increase click handler; no style element; no CSP response header."
+  },
+  "marker": {
+    "path": "/tmp/T3-8e3c0eaa-24b8-4c72-9a5d-6cc85c96c5a3",
+    "contentRead": "b3cac145b4b1e81edcc617d18f4d2517e623e7eb97d42074"
+  },
+  "changes": [
+    "index.html: inline style for #count color rgb(17,100,170) and font-weight 700"
+  ],
+  "tests": [
+    {
+      "command": "node /tmp/T3-browser.cjs",
+      "at": "2026-11-04T00:58:56.243Z",
+      "tool": "Playwright 1.56.1",
+      "browser": "141.0.7390.37",
+      "httpStatus": 200,
+      "computedStyle": {
+        "color": "rgb(17, 100, 170)",
+        "fontWeight": "700"
+      },
+      "increase": {
+        "before": "0",
+        "after": "1"
+      },
+      "pageErrors": [],
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "service": {
+    "pid": 514,
+    "url": "http://127.0.0.1:3210/",
+    "launch": "Detached Node child process with PORT=3210, ignored stdin and /tmp/T3-http.log output; unref()",
+    "runningForReviewer": true
+  },
+  "reviewerHandoff": "Read the marker path and content from this JSON directly in the same lane; reuse the listed running service. Reviewer records independent results in proof/T3-reviewer.json."
+}
