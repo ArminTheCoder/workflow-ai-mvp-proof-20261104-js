@@ -1,0 +1,74 @@
+{
+  "task": "T1",
+  "reviewedAt": "2026-11-04T00:53:14.639Z",
+  "startCommit": "20b8d6d7fe8904d59a78708b04f915944634e29a",
+  "reviewedCommit": "94246c8fae74bb36eb47f6e3ace84d6c641ca75a",
+  "baseVerification": {
+    "sourceProvenance": "20b8d6d7fe8904d59a78708b04f915944634e29a",
+    "baselineInspectedWith": "git show <start>:app.js, index.html, server.mjs",
+    "absentAtStart": [
+      "Decrease",
+      "Reset",
+      "keyboard I",
+      "blue bold count style",
+      "strict CSP"
+    ],
+    "productFilesChanged": [
+      "app.js"
+    ]
+  },
+  "marker": {
+    "path": "/tmp/T1-0b7f5c2404481bec0d080ea5",
+    "actualContent": "f6c5d5dc14f69ae1eb8571fac321f6d7e9d655cb672c117b23c43bdaa42bca12\n",
+    "matchesImplementer": true
+  },
+  "service": {
+    "url": "http://127.0.0.1:3210/",
+    "pid": 511,
+    "processObserved": "511 /usr/local/bin/node /workspace/server.mjs",
+    "reusedExistingService": true,
+    "httpStatus": 200,
+    "contentType": "text/html; charset=utf-8",
+    "appJsStatus": 200,
+    "servedAppMatchesWorkspace": true
+  },
+  "browser": {
+    "tool": "Playwright 1.56.1",
+    "chromium": "141.0.7390.37",
+    "actualSequence": [
+      "0",
+      "1",
+      "0",
+      "-1"
+    ],
+    "button": {
+      "text": "Decrease",
+      "parent": "main",
+      "count": 1
+    },
+    "dynamicallyCreated": true,
+    "pageErrors": []
+  },
+  "checks": {
+    "exactStepContract": true,
+    "increasePreserved": true,
+    "negativeCount": true,
+    "scopePassed": true
+  },
+  "commands": [
+    "git status --short; git rev-parse HEAD; cat proof/T1-implementer.json; cat app.js",
+    "git diff <start> HEAD --stat; git show <start>:app.js; git show <start>:index.html; git show <start>:server.mjs",
+    "cat /tmp/T1-0b7f5c2404481bec0d080ea5; ps -p 511 -o pid,args",
+    "node --version; npm --version; read /run/workflow-ai/toolbase.json and existing tooling recipe",
+    "node heredoc: read marker, fetch existing HTTP / and /app.js, launch Chromium, click Increase/Decrease/Decrease, assert sequence and dynamic button; write this proof"
+  ],
+  "tooling": {
+    "node": "v24.22.2",
+    "npm": "11.19.1",
+    "existingRecipe": "/workflowai-tooling/install.sh",
+    "requirements": "/workflowai-tooling/requirements.json",
+    "newToolsInstalled": false
+  },
+  "findings": [],
+  "result": "passed"
+}

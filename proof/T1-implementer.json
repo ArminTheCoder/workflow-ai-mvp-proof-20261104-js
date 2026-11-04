@@ -1,0 +1,82 @@
+{
+  "task": "T1 — Decrease ergänzen",
+  "startCommit": "20b8d6d7fe8904d59a78708b04f915944634e29a",
+  "beforeChanges": {
+    "utc": "2026-11-04T00:49:48.182Z",
+    "gitStatus": "clean",
+    "missingFeatures": [
+      "Decrease absent: only Increase handler and button",
+      "Reset absent",
+      "Keyboard I handler absent",
+      "Blue bold #count design absent; no style element or stylesheet",
+      "Strict CSP absent: server writes only content-type"
+    ]
+  },
+  "marker": {
+    "path": "/tmp/T1-0b7f5c2404481bec0d080ea5",
+    "content": "f6c5d5dc14f69ae1eb8571fac321f6d7e9d655cb672c117b23c43bdaa42bca12\n"
+  },
+  "changes": [
+    "Only app.js product changes: exact T1 step comment and dynamically appended Decrease button"
+  ],
+  "tests": [
+    {
+      "command": "node --check app.js",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    },
+    {
+      "command": "node /tmp/T1-browser.cjs",
+      "utc": "2026-11-04T00:51:56.324Z",
+      "result": "passed",
+      "actualSequence": [
+        "0",
+        "1",
+        "0",
+        "-1"
+      ],
+      "dynamicButtonParent": "main",
+      "buttonText": "Decrease",
+      "pageErrors": [],
+      "markerRead": "f6c5d5dc14f69ae1eb8571fac321f6d7e9d655cb672c117b23c43bdaa42bca12\n"
+    }
+  ],
+  "service": {
+    "pid": 511,
+    "url": "http://127.0.0.1:3210/",
+    "launchCommand": "detached node child_process.spawn(process.execPath, ['/workspace/server.mjs'], {env: {...process.env, PORT:'3210'}, detached:true, stdio:['ignore',log,log]}); child.unref()",
+    "log": "/tmp/T1-http.log",
+    "httpStatus": 200
+  },
+  "tooling": {
+    "node": "v24.22.2",
+    "playwright": "1.56.1",
+    "chromium": "141.0.7390.37",
+    "recipe": "/workflowai-tooling/install.sh",
+    "requirements": "/workflowai-tooling/requirements.json",
+    "baseProvenance": "Read /run/workflow-ai/toolbase.json; sourceProvenance matches startCommit"
+  },
+  "reviewerHandoff": {
+    "instruction": "Read marker.path directly, verify its content, reuse service URL and PID for independent browser check; write proof/T1-reviewer.json.",
+    "browserScript": "/tmp/T1-browser.cjs"
+  },
+  "commandsBeforeChanges": [
+    "git rev-parse HEAD",
+    "git status --short",
+    "rg --files -g AGENTS.md -g app.js -g index.html -g server.mjs -g package.json",
+    "cat app.js index.html server.mjs"
+  ],
+  "scopeVerification": {
+    "productFilesChanged": [
+      "app.js"
+    ],
+    "otherProductFilesUnchanged": [
+      "index.html",
+      "server.mjs"
+    ],
+    "otherTasksImplemented": false
+  }
+}
