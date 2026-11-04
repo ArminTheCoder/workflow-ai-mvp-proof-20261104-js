@@ -1,0 +1,85 @@
+{
+  "task": "T4",
+  "startCommit": "20b8d6d7fe8904d59a78708b04f915944634e29a",
+  "beforeChanges": {
+    "recordedAt": "2026-11-04T00:55:21.821Z",
+    "workingTreeClean": true,
+    "missing": [
+      "T1 decrease",
+      "T2 reset",
+      "T3 blue bold design",
+      "T4 strict CSP",
+      "T5 keyboard I"
+    ],
+    "inlineCSSAbsent": true,
+    "evidence": {
+      "app.js": "let count = 0;\nconst step = 1;\nconst output = document.querySelector('#count');\ndocument.querySelector('#increase').addEventListener('click', () => {\n  count += step;\n  output.textContent = String(count);\n});\n",
+      "index.html": "<!doctype html>\n<html lang=\"en\"><meta charset=\"utf-8\"><title>Synthetic counter</title>\n<body><main><h1>Synthetic counter</h1><p id=\"count\">0</p><button id=\"increase\">Increase</button></main><script type=\"module\" src=\"/app.js\"></script></body></html>\n",
+      "server.mjs": "import { createServer } from 'node:http';\nimport { readFile } from 'node:fs/promises';\nconst routes = new Map([['/', ['index.html', 'text/html']], ['/app.js', ['app.js', 'text/javascript']]]);\ncreateServer(async (request, response) => {\n  const route = routes.get(request.url);\n  if (!route) { response.writeHead(404); response.end('Not found'); return; }\n  try { response.writeHead(200, { 'content-type': route[1] + '; charset=utf-8' }); response.end(await readFile(new URL(route[0], import.meta.url))); }\n  catch { response.writeHead(500); response.end('Read error'); }\n}).listen(Number(process.env.PORT || 3000), '0.0.0.0');\n"
+    }
+  },
+  "marker": {
+    "path": "/tmp/T4-3d97ce826ef0fee47eefed156bc400f2",
+    "contentRead": "a6b49b1041a7d250276bde2dc1734962a4f6b7a22486f4dedf87fc740d0eae71\n"
+  },
+  "tests": [
+    {
+      "type": "HTTP",
+      "route": "/",
+      "status": 200,
+      "header": "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'",
+      "bodyUnchanged": true
+    },
+    {
+      "type": "HTTP",
+      "route": "/app.js",
+      "status": 200,
+      "header": "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'",
+      "bodyUnchanged": true
+    },
+    {
+      "type": "real browser",
+      "browser": "Chromium 141.0.7390.37",
+      "url": "http://127.0.0.1:3210/",
+      "action": "Click Increase",
+      "before": "0",
+      "after": "1",
+      "errors": [
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "url": "http://127.0.0.1:3210/favicon.ico"
+        }
+      ],
+      "testedAt": "2026-11-04T00:59:01.805Z",
+      "consoleAssessment": "Only existing absent favicon.ico returned 404; no JavaScript errors or CSP violations."
+    }
+  ],
+  "service": {
+    "pid": 525,
+    "url": "http://127.0.0.1:3210",
+    "log": "/tmp/T4-server.log",
+    "lastVerifiedAt": "2026-11-04T00:59:17.943Z"
+  },
+  "changes": {
+    "productFiles": [
+      "server.mjs"
+    ],
+    "description": "Exact strict CSP added to successful existing routes only"
+  },
+  "tooling": {
+    "node": "v24.22.2",
+    "playwright": "1.56.1",
+    "recipe": "/workflowai-tooling/install.sh",
+    "requirements": "/workflowai-tooling/requirements.json"
+  },
+  "reviewerHandoff": {
+    "markerPath": "/tmp/T4-3d97ce826ef0fee47eefed156bc400f2",
+    "service": {
+      "pid": 525,
+      "url": "http://127.0.0.1:3210",
+      "log": "/tmp/T4-server.log",
+      "lastVerifiedAt": "2026-11-04T00:59:17.943Z"
+    },
+    "instruction": "Read this same /tmp marker and independently test the same running service; write proof/T4-reviewer.json in reviewer step."
+  }
+}
