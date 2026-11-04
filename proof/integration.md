@@ -170,3 +170,57 @@ String-Syntax; der Bericht wurde anschließend per literalem Heredoc ergänzt.
 T1–T4 sind gemeinsam funktionsfähig. T5 noch nicht angeboten; die
 abschließende Fünferprüfung und der eigenständige Browserbericht folgen
 in späteren Workflow-Schritten.
+
+## T5 – angenommen; eigener kombinierter Browsernachweis aller fünf Beiträge
+
+Kandidat `95dd6b91-5cd1-47f4-bf3a-c008482e4b05`, Kandidaten-Commit
+`eddc57ccf75c2ebd44e9c9c8dc99a95bc39d0cdc`, vorheriger Integrations-HEAD
+`d65cb5f`. Der begonnene Merge meldete tatsächlich `UU app.js`: die
+bestehenden Decrease-/Reset-Blöcke standen im Konflikt mit dem am gleichen
+Dateiende angehängten T5-keydown-Handler. Beide Seiten vollständig nacheinander
+erhalten; die bereits aufgelöste gemeinsame step-Zeile bleibt unverändert.
+T5 ruft für i/I ohne repeat den bestehenden Increase-Button-Klick auf.
+Beide T5-JSON-Nachweise gelesen und unverändert übernommen. Keine weiteren
+Produktänderungen; externe CSS und strenge CSP aus T4 erhalten.
+
+Eigene tatsächliche Prüfung des vollständigen T1–T5-Produktstands am
+2026-11-04T01:04:29.974Z: `node /tmp/integration-t5.cjs after`.
+Frischer eigener Node-HTTPdienst auf Port 3211, Navigation im echten generischen
+Chromium 141.0.7390.37 über Playwright 1.56.1 (headless, kein DOM-Mock).
+Tatsächliche Klick-/Tastaturfolge:
+
+| Aktion | Sichtbarer Zähler |
+| --- | --- |
+| Initial | 0 |
+| Increase-Klick | 1 |
+| Decrease-Klick | 0 |
+| Decrease-Klick | -1 |
+| Reset-Klick | 0 |
+| Taste I | 1 |
+| Taste i | 2 |
+| Erstes keydown i | 3 |
+| Zweites keydown bei gehaltener Taste i (repeat) | 3 |
+| Explizites keydown I mit repeat=true im Browser | 3 |
+| Andere Taste x | 3 |
+| Taste I | 4 |
+
+Für die letzte Taste wurde zusätzlich ein Browser-Listener am Increase-Button
+angebracht: exakt ein Click-Ereignis gemessen, Delegation bestätigt.
+Berechnete CSS-Farbe `rgb(17, 100, 170)`, Schriftgewicht `700`.
+/styles.css wurde tatsächlich vom Browser mit 200 geladen. Keine
+Konsolenmeldungen, keine JavaScript-Seitenfehler, keine
+securitypolicyviolation-Ereignisse. HTTP /, /app.js und /styles.css jeweils 200
+mit unverändert exakt folgendem Header:
+
+```text
+default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'
+```
+
+/styles.css liefert `text/css; charset=utf-8`. Browser und eigener Dienst nach
+der Prüfung beendet. Toolbase-Provenienz erneut gelesen und Node v24.22.2 /
+npm 11.19.1 bestätigt; vorhandenes externes Browsertooling wiederverwendet.
+`node --check app.js` und `git diff --cached --check` erfolgreich.
+Alle fünf angebotenen fachlichen Beiträge sind damit seriell integriert und
+in Kombination tatsächlich selbst geprüft. Der separate Workflow-Browserprüfer
+schreibt seinen eigenen Bericht erst im nachfolgenden Baustein; dieser Schritt
+erzeugt ausschließlich den Integrationsnachweis und die T5-Annahme.

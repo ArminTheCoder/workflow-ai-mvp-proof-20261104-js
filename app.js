@@ -21,3 +21,9 @@ reset.addEventListener('click', () => {
   output.textContent = String(count);
 });
 document.querySelector('main').append(reset);
+
+document.addEventListener('keydown', (event) => {
+  if (!event.repeat && (event.key === 'i' || event.key === 'I')) {
+    document.querySelector('#increase').click();
+  }
+});
