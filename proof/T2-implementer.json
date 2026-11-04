@@ -1,0 +1,95 @@
+{
+  "task": "T2",
+  "startCommit": "20b8d6d7fe8904d59a78708b04f915944634e29a",
+  "beforeChangesUTC": "2026-11-04T00:49:40.197Z",
+  "baseline": {
+    "clean": true,
+    "decreaseAbsent": true,
+    "resetAbsent": true,
+    "keyboardIAbsent": true,
+    "blueBoldStyleAbsent": true,
+    "strictCSPAbsent": true,
+    "evidence": "Read complete original app.js, index.html and server.mjs before edits; app has only Increase, HTML has no style, server has only content-type header."
+  },
+  "marker": {
+    "path": "/tmp/T2-9dd5a372-46b2-45c5-a3de-7a7c5d4e6ee4",
+    "contentRead": "92de3b9627a9831e2368f1596f57a7597558055ecd15104a\n"
+  },
+  "toolbase": {
+    "imageId": "sha256:e3fd159ed39ad93c28a417af9fb3494352aef69724fd20c93010335831e5efdf",
+    "requirements": "Pinned Workflow AI runtime base",
+    "recipeDigest": null,
+    "sourceProvenance": "20b8d6d7fe8904d59a78708b04f915944634e29a"
+  },
+  "tests": [
+    {
+      "name": "node --check app.js",
+      "result": "passed"
+    },
+    {
+      "name": "git diff --check",
+      "result": "passed"
+    },
+    {
+      "name": "Actual Chromium browser interactions",
+      "url": "http://127.0.0.1:3210/",
+      "httpStatus": 200,
+      "browser": "141.0.7390.37",
+      "playwright": "1.56.1",
+      "sequence": "initial → Increase ×3 → Reset → Increase → Reset → Reset",
+      "observedValues": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "0",
+        "1",
+        "0",
+        "0"
+      ],
+      "resetInsideMain": true,
+      "resetText": "Reset",
+      "pageErrors": [],
+      "result": "passed",
+      "completedUTC": "2026-11-04T00:52:15.442Z"
+    }
+  ],
+  "service": {
+    "pid": 2209,
+    "url": "http://127.0.0.1:3210",
+    "log": "/tmp/T2-http.log",
+    "command": "Node spawn(process.execPath, ['/workspace/server.mjs'], {detached:true, stdio:['ignore',log,log], env:{...process.env,PORT:'3210'}}); child.unref()",
+    "initialLaunchIssue": "Initial nohup background process did not survive shell exit; first browser attempt got ERR_CONNECTION_REFUSED. Relaunched detached using Node spawn/unref before successful testing.",
+    "finalHealth": {
+      "checkedUTC": "2026-11-04T00:53:18.526Z",
+      "status": 200,
+      "pidAlive": true
+    }
+  },
+  "changes": [
+    "app.js: exact T2 step contract comment",
+    "Dynamically append Reset button to main; reset count and output to zero"
+  ],
+  "reviewerHandoff": {
+    "markerMustBeRead": "/tmp/T2-9dd5a372-46b2-45c5-a3de-7a7c5d4e6ee4",
+    "servicePID": 2209,
+    "url": "http://127.0.0.1:3210",
+    "note": "Service left running. Reviewer must independently read marker and test the same service; reviewer proof is reserved for reviewer."
+  },
+  "wait": {
+    "command": "sleep 45",
+    "executions": 1,
+    "beforeUTC": "2026-11-04T00:52:26.546392321Z",
+    "afterUTC": "2026-11-04T00:53:11.547401124Z",
+    "elapsedMilliseconds": 45001,
+    "afterImplementationAndSuccessfulBrowserTest": true
+  },
+  "toolVersions": {
+    "node": "v24.22.2",
+    "npm": "11.19.1",
+    "playwright": "1.56.1",
+    "chromium": "141.0.7390.37",
+    "recipe": "/workflowai-tooling/install.sh",
+    "requirements": "/workflowai-tooling/requirements.json"
+  }
+}
