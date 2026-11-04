@@ -80,3 +80,29 @@ Browsertooling wiederverwendet. Ein erster Versuch, das Reparaturskript mit
 Python auszuführen, scheiterte an fehlendem Python; die Reparatur wurde
 anschließend mit vorhandenem Node ausgeführt und danach erfolgreich geprüft.
 T3–T5 bleiben in diesem Schritt noch offen.
+
+## T3 – angenommen; Inline-Design wirksam
+
+Angebotener Kandidat: `37e298eb-51bb-4ff9-9f4a-f552aca40e06`.
+Vorheriger Integrations-HEAD: `fbbed6d`. Gestagter Kandidat enthält ausschließlich
+eine zusätzliche Inline-style-Zeile in `index.html` sowie die beiden
+T3-JSON-Nachweise. Ohne Textkonflikt übernommen, keine Produktkorrektur nötig.
+`app.js` mit Increase, Decrease und Reset sowie `server.mjs` bleiben unverändert.
+Die übernommenen Lane-Nachweise einschließlich Browserwerten wurden gelesen.
+
+Eigene tatsächliche Prüfung des kombinierten T1–T3-Standes am
+2026-11-04 um 01:00:36 UTC: `node /tmp/integration-t3.cjs`, eigener
+HTTPdienst auf Port 3211, Playwright 1.56.1 und Chromium 141.0.7390.37.
+Berechnete CSS-Werte für #count exakt Farbe `rgb(17, 100, 170)` und
+Schriftgewicht `700`. Klickfolge Increase, Decrease, Decrease, Reset,
+Increase, Increase, Reset, Reset ergab sichtbar
+`0 → 1 → 0 → -1 → 0 → 1 → 2 → 0 → 0`. Beide dynamischen Buttons bleiben
+direkte Kinder von main; keine JavaScript-Seitenfehler. Browser und eigener
+Dienst anschließend beendet. `git diff --cached --check` erfolgreich.
+Toolbase-Provenienz erneut gelesen, Node v24.22.2 und npm 11.19.1 bestätigt;
+extern installiertes Browsertooling wiederverwendet.
+
+T4 ist noch nicht angeboten: server.mjs enthält weiterhin nur content-type
+und keine CSP. Das Inline-style-Element bleibt für die spätere unveränderte
+T3/T4-Kombinationsprüfung erhalten. Eine vorgezogene externe CSS-Reparatur
+wurde daher nicht vorgenommen. T4/T5 und die Gesamtprüfung bleiben offen.
