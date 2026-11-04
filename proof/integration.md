@@ -106,3 +106,67 @@ T4 ist noch nicht angeboten: server.mjs enthält weiterhin nur content-type
 und keine CSP. Das Inline-style-Element bleibt für die spätere unveränderte
 T3/T4-Kombinationsprüfung erhalten. Eine vorgezogene externe CSS-Reparatur
 wurde daher nicht vorgenommen. T4/T5 und die Gesamtprüfung bleiben offen.
+
+## T4 – angenommen; realer T3/T4-Inhaltskonflikt geprüft und repariert
+
+Kandidat: `2d394f44-3ab8-43d8-bbfb-83fc58247a00`.
+Vorheriger Integrations-HEAD: `3a71abb`. Der gestagte Beitrag änderte
+produktseitig ausschließlich server.mjs (CSP-Header), dazu die beiden
+T4-JSON-Nachweise. Nachweise gelesen und unverändert übernommen.
+`git status --short` zeigte keine unaufgelösten Dateien. T3 index.html und
+T4 server.mjs waren ohne gegenseitigen Git-Textkonflikt gemeinsam vorhanden.
+
+Vor jeder Produktreparatur wurde exakt dieser kombinierte Stand mit erhaltenem
+T3-Inline-style-Element und unverändertem T4-Header tatsächlich im Browser
+geprüft: `node /tmp/integration-t4.cjs before`, 2026-11-04T01:01:31.762Z.
+Eigener frisch gestarteter HTTPdienst auf Port 3211, echter Chromium
+141.0.7390.37 über Playwright 1.56.1. Berechnete Farbe `rgb(0, 0, 0)`,
+Schriftgewicht `400`. Tatsächliche vollständige Browser-Konsolenmeldung:
+
+```text
+Refused to apply inline style because it violates the following Content Security Policy directive: "style-src 'self'". Either the 'unsafe-inline' keyword, a hash ('sha256-7veE/PmB2GSmdAfTd8XWFZr3ENeB7aiaImq8KXZPOoM='), or a nonce ('nonce-...') is required to enable inline execution.
+```
+
+Ort: http://127.0.0.1:3211/, nullbasierte Zeile 2, Spalte 0.
+Zusätzlich gemessenes securitypolicyviolation-Ereignis:
+`effectiveDirective=style-src-elem`, `blockedURI=inline`, originalPolicy
+identisch mit dem geforderten Header. Keine JavaScript-Seitenfehler.
+Increase, Decrease, Decrease, Reset ergaben bereits vor Reparatur
+`0 → 1 → 0 → -1 → 0`; der Fehler betraf die Darstellung.
+
+Erforderliche Integrationsreparatur: unveränderten #count-Regelinhalt nach
+`styles.css` verschoben, style-Element durch
+`<link rel="stylesheet" href="/styles.css">` ersetzt und in server.mjs die
+Route `/styles.css` mit MIME-Typ `text/css` ergänzt. app.js unverändert.
+Keine CSP-Ausnahme, kein unsafe-inline, kein Hash oder Nonce ergänzt.
+
+Erneute reale Browserprüfung: `node /tmp/integration-t4.cjs after`,
+2026-11-04T01:01:43.483Z, neuer eigener Dienst auf Port 3211 und neue
+Chromium-Sitzung. Berechnete Farbe nun `rgb(17, 100, 170)`, Gewicht `700`.
+Browser hat /styles.css tatsächlich mit HTTP 200 geladen. Keine
+Konsolenmeldungen, keine CSP-Verletzungen, keine JavaScript-Seitenfehler.
+Dieselbe Klickfolge lieferte unverändert `0 → 1 → 0 → -1 → 0`.
+Browser und eigene Dienste jeweils beendet.
+
+HTTP vor Reparatur: / und /app.js jeweils 200 mit exakt geforderter CSP.
+HTTP nach Reparatur: /, /app.js und /styles.css jeweils 200 mit exakt:
+
+```text
+default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'
+```
+
+/styles.css hatte `content-type: text/css; charset=utf-8`.
+`node --check server.mjs`, `node --check app.js` und abschließendes
+`git diff --cached --check` erfolgreich. Toolbase-Provenienz erneut gelesen
+(Basis 20b8d6d7fe8904d59a78708b04f915944634e29a), Node v24.22.2 und npm
+11.19.1 bestätigt. Vorhandenes externes Browsertooling samt ausführbarem
+Rezept unter /workflowai-tooling wiederverwendet; keine Installation in
+versionierten Quellen. Rohmessungen dieses Laufs außerdem unter
+/tmp/integration-t4-before.json und /tmp/integration-t4-after.json;
+wesentliche tatsächliche Ergebnisse dauerhaft hier dokumentiert.
+Ein erster Node-Aufruf zum Anhängen dieses Berichts scheiterte an der
+String-Syntax; der Bericht wurde anschließend per literalem Heredoc ergänzt.
+
+T1–T4 sind gemeinsam funktionsfähig. T5 noch nicht angeboten; die
+abschließende Fünferprüfung und der eigenständige Browserbericht folgen
+in späteren Workflow-Schritten.
